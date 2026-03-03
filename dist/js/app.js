@@ -21,13 +21,13 @@ class InventoryManager {
     }
     
     init() {
-        this.bindEvents();
-        this.renderRecentItems();
-        this.renderScenes();
-        this.renderTags();
-        this.populateFormSelects();
-        this.renderSceneCards();
-        this.renderTagCards();
+        this.bindEvents();//綁定各種事件
+        this.renderRecentItems();//最近添加的物品
+        this.renderScenes();//場景清單
+        this.renderTags();//標籤清單
+        this.populateFormSelects();//表單選項下拉與勾選框
+        this.renderSceneCards();//場景卡片
+        this.renderTagCards();//標籤卡片
     }
     
     bindEvents() {

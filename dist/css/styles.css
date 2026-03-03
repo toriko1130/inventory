@@ -43,7 +43,7 @@ body {
     flex-direction: column;
 }
 
-/* Hero Section */
+/* 首頁大圖 Section */
 .hero-section {
     position: relative;
     background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
@@ -85,7 +85,7 @@ body {
     opacity: 0.9;
 }
 
-/* Search Container */
+/* 首頁搜尋 Container */
 .search-container {
     padding: 1rem;
     background: rgba(255, 255, 255, 0.1);
@@ -129,6 +129,7 @@ body {
 
 /* Main Content */
 .main-content {
+    width: 100%;
     flex: 1;
     padding-bottom: 80px;
 }
@@ -802,11 +803,15 @@ body {
     }
     
     .main-content {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 2rem;
+
     }
     
+    .page{
+        max-width: 1200px;
+        margin: 0 auto;
+
+    }
+
     .quick-access {
         max-width: 600px;
         margin: 0 auto 2rem;
