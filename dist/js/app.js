@@ -2,9 +2,11 @@
 class InventoryManager {
     constructor() {
         this.scenes = JSON.parse(localStorage.getItem('scenes')) || [
-            { id: 1, name: '客廳', locations: ['電視櫃', '沙發旁', '茶几'] },
-            { id: 2, name: '廚房', locations: ['冰箱', '櫥櫃', '流理台'] },
-            { id: 3, name: '臥室', locations: ['衣櫃', '床頭櫃', '書桌'] }
+            { id: 1, name: '客廳', locations: ['電視櫃', '沙發下', '茶几'] },
+            { id: 2, name: '廚房', locations: ['冰箱', '下水槽', '流理台','抽油煙機上'] },
+            { id: 3, name: '浴室', locations: ['水槽下', '右抽屜上', '右抽屜下'] },
+            { id: 4, name: '陽台', locations: ['洗衣機下', '右側櫃', '左側櫃'] },
+            { id: 5, name: '臥室', locations: ['衣櫃', '床頭櫃', '床頭櫃右','窗臥榻1','窗臥榻2'] }
         ];
         
         this.tags = JSON.parse(localStorage.getItem('tags')) || [
@@ -20,6 +22,7 @@ class InventoryManager {
         this.init();
     }
     
+    /*初始化方法*/
     init() {
         this.bindEvents();//綁定各種事件
         this.renderRecentItems();//最近添加的物品
@@ -30,8 +33,9 @@ class InventoryManager {
         this.renderTagCards();//標籤卡片
     }
     
+    /*互動元素綁定事件*/
     bindEvents() {
-        // Navigation
+        // 導覽列切換頁面Navigation
         document.querySelectorAll('.nav-item').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const page = e.currentTarget.dataset.page;
@@ -39,7 +43,7 @@ class InventoryManager {
             });
         });
         
-        // Quick access cards
+        // 快捷卡片切換頁面Quick access cards
         document.querySelectorAll('.access-card').forEach(card => {
             card.addEventListener('click', (e) => {
                 const page = e.currentTarget.dataset.page;
@@ -47,29 +51,37 @@ class InventoryManager {
             });
         });
         
-        // Back buttons
+        // 返回首頁按鈕
         document.getElementById('scenesBackBtn').addEventListener('click', () => this.navigateToPage('home'));
         document.getElementById('tagsBackBtn').addEventListener('click', () => this.navigateToPage('home'));
         
-        // Add buttons
+        // 新增按鈕
         document.getElementById('addItemNavBtn').addEventListener('click', () => this.openAddItemModal());
-        document.getElementById('addSceneBtn').addEventListener('click', () => this.addScene());
-        document.getElementById('addTagBtn').addEventListener('click', () => this.addTag());
+        document.getElementById('addSceneBtn').addEventListener('click', () => this.openAddSceneModal());
+        document.getElementById('addTagBtn').addEventListener('click', () => this.openAddTagModal());
         
-        // Modal
+        // 新增物品 modal
         document.getElementById('closeModalBtn').addEventListener('click', () => this.closeAddItemModal());
         document.getElementById('addItemForm').addEventListener('submit', (e) => this.handleAddItem(e));
         
-        // Search
+        // 新增場景 modal
+        document.getElementById('closeSceneModalBtn').addEventListener('click', () => this.closeAddSceneModal());
+        document.getElementById('addSceneForm').addEventListener('submit', (e) => this.handleAddScene(e));
+        
+        // 新增標籤 modal
+        document.getElementById('closeTagModalBtn').addEventListener('click', () => this.closeAddTagModal());
+        document.getElementById('addTagForm').addEventListener('submit', (e) => this.handleAddTag(e));
+        
+        // 搜尋
         document.getElementById('searchBtn').addEventListener('click', () => this.searchItems());
         document.getElementById('searchInput').addEventListener('keypress', (e) => {
             if (e.key === 'Enter') this.searchItems();
         });
         
-        // Scene selection
+        // 場景下拉選單改變
         document.getElementById('itemScene').addEventListener('change', (e) => this.updateLocationOptions(e.target.value));
         
-        // View all buttons
+        // 查看全部按鈕
         document.querySelectorAll('.view-all-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const page = e.currentTarget.dataset.page;
@@ -78,6 +90,7 @@ class InventoryManager {
         });
     }
     
+    /*頁面切換與渲染*/
     navigateToPage(page) {
         // Update navigation
         document.querySelectorAll('.nav-item').forEach(item => {
@@ -297,12 +310,32 @@ class InventoryManager {
     openAddItemModal() {
         document.getElementById('addItemModal').classList.add('active');
     }
-    
+
     closeAddItemModal() {
         document.getElementById('addItemModal').classList.remove('active');
         document.getElementById('addItemForm').reset();
     }
-    
+
+    openAddSceneModal() {
+        document.getElementById('addSceneModal').classList.add('active');
+    }
+
+    closeAddSceneModal() {
+        document.getElementById('addSceneModal').classList.remove('active');
+        document.getElementById('addSceneForm').reset();
+    }
+
+    openAddTagModal() {
+        document.getElementById('addTagModal').classList.add('active');
+    }
+
+    closeAddTagModal() {
+        document.getElementById('addTagModal').classList.remove('active');
+        document.getElementById('addTagForm').reset();
+    }
+
+
+        
     handleAddItem(e) {
         e.preventDefault();
         
@@ -332,43 +365,93 @@ class InventoryManager {
         alert('物品添加成功！');
     }
     
-    addScene() {
-        const name = prompt('請輸入場景名稱：');
-        if (name && name.trim()) {
-            const locations = prompt('請輸入地點名稱（用逗號分隔）：');
-            if (locations && locations.trim()) {
-                const newScene = {
-                    id: Date.now(),
-                    name: name.trim(),
-                    locations: locations.split(',').map(l => l.trim())
-                };
+    handleAddScene(e) {
+        e.preventDefault();
+
+        const name = document.getElementById('sceneName').value.trim();
+        const locations = document.getElementById('sceneLocations').value.trim();
+
+        if (!name || !locations) return;
+
+        const newScene = {
+            id: Date.now(),
+            name,
+            locations: locations.split(',').map(l => l.trim()).filter(Boolean)
+        };
+
+        this.scenes.push(newScene);
+        this.saveData();
+        this.renderScenes();
+        this.renderSceneCards();
+        this.populateFormSelects();
+        this.closeAddSceneModal();
+
+        alert('場景添加成功！');
+    }
+
+    handleAddTag(e) {
+        e.preventDefault();
+
+        const name = document.getElementById('tagName').value.trim();
+        const color = document.getElementById('tagColor').value;
+
+        if (!name) return;
+
+        const newTag = {
+            id: Date.now(),
+            name,
+            color
+        };
+
+        this.tags.push(newTag);
+        this.saveData();
+        this.renderTags();
+        this.renderTagCards();
+        this.populateFormSelects();
+        this.closeAddTagModal();
+
+        alert('標籤添加成功！');
+    }
+
+
+
+    // addScene() {
+    //     const name = prompt('請輸入場景名稱：');
+    //     if (name && name.trim()) {
+    //         const locations = prompt('請輸入地點名稱（用逗號分隔）：');
+    //         if (locations && locations.trim()) {
+    //             const newScene = {
+    //                 id: Date.now(),
+    //                 name: name.trim(),
+    //                 locations: locations.split(',').map(l => l.trim())
+    //             };
                 
-                this.scenes.push(newScene);
-                this.saveData();
-                this.renderScenes();
-                this.populateFormSelects();
-            }
-        }
-    }
+    //             this.scenes.push(newScene);
+    //             this.saveData();
+    //             this.renderScenes();
+    //             this.populateFormSelects();
+    //         }
+    //     }
+    // }
     
-    addTag() {
-        const name = prompt('請輸入標籤名稱：');
-        if (name && name.trim()) {
-            const colors = ['#EF4444', '#F59E0B', '#10B981', '#3B82F6', '#8B5CF6', '#EC4899'];
-            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+    // addTag() {
+    //     const name = prompt('請輸入標籤名稱：');
+    //     if (name && name.trim()) {
+    //         const colors = ['#EF4444', '#F59E0B', '#10B981', '#3B82F6', '#8B5CF6', '#EC4899'];
+    //         const randomColor = colors[Math.floor(Math.random() * colors.length)];
             
-            const newTag = {
-                id: Date.now(),
-                name: name.trim(),
-                color: randomColor
-            };
+    //         const newTag = {
+    //             id: Date.now(),
+    //             name: name.trim(),
+    //             color: randomColor
+    //         };
             
-            this.tags.push(newTag);
-            this.saveData();
-            this.renderTags();
-            this.populateFormSelects();
-        }
-    }
+    //         this.tags.push(newTag);
+    //         this.saveData();
+    //         this.renderTags();
+    //         this.populateFormSelects();
+    //     }
+    // }
     
     searchItems() {
         const query = document.getElementById('searchInput').value.toLowerCase().trim();

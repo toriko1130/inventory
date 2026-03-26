@@ -39,36 +39,39 @@
             <div id="homePage" class="page active">
                 <!-- Scenes Section -->
                 <div class="section-container">
-                    <div class="section-header">
-                        <h2 class="section-title">場景</h2>
-                        <button class="view-all-btn" data-page="scenes">查看全部</button>
-                    </div>
-                    <div class="horizontal-scroll-container" id="scenesScrollContainer">
-                        <div class="horizontal-scroll-content" id="scenesScrollContent">
-                            <!-- Scenes cards will be populated here -->
+                    <div class="section-item">
+                        <div class="section-header">
+                            <h2 class="section-title">場景</h2>
+                            <button class="view-all-btn" data-page="scenes">查看全部</button>
+                        </div>
+                        <div class="horizontal-scroll-container" id="scenesScrollContainer">
+                            <div class="horizontal-scroll-content" id="scenesScrollContent">
+                                <!-- Scenes cards will be populated here -->
+                            </div>
+                        </div>
+                    </div> 
+                   <!-- Tags Section -->
+                   <div class="section-item">
+                        <div class="section-header">
+                            <h2 class="section-title">標籤</h2>
+                            <button class="view-all-btn" data-page="tags">查看全部</button>
+                        </div>
+                        <div class="horizontal-scroll-container" id="tagsScrollContainer">
+                            <div class="horizontal-scroll-content" id="tagsScrollContent">
+                                <!-- Tags cards will be populated here -->
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <!-- Tags Section -->
-                <div class="section-container">
-                    <div class="section-header">
-                        <h2 class="section-title">標籤</h2>
-                        <button class="view-all-btn" data-page="tags">查看全部</button>
-                    </div>
-                    <div class="horizontal-scroll-container" id="tagsScrollContainer">
-                        <div class="horizontal-scroll-content" id="tagsScrollContent">
-                            <!-- Tags cards will be populated here -->
+                   <!-- New Section -->
+                    <div class="section-item">
+                        <div class="section-header">
+                            <h2 class="section-title">最近更新</h2>
+                        </div>
+                        <div id="recentItemsList" class="items-list">
+                                <!-- Recent items will be populated here -->
                         </div>
                     </div>
-                </div>
-
-                <div class="recent-items">
-                    <h2 class="section-title">最近更新</h2>
-                    <div id="recentItemsList" class="items-list">
-                        <!-- Recent items will be populated here -->
-                    </div>
-                </div>
+                </div> 
             </div>
 
             <!-- 場景頁面Scenes Page -->
@@ -226,6 +229,65 @@
                             <input type="file" id="itemPhoto" accept="image/*">
                         </div>
                         <button type="submit" class="btn btn-primary">添加物品</button>
+                    </form>
+                </div>
+            </div>
+
+
+            <!-- 添加場景Modal -->
+            <div id="addSceneModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>添加場景</h3>
+                        <button class="close-btn" id="closeSceneModalBtn">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <form id="addSceneForm" class="form">
+                        <div class="form-group">
+                            <label for="sceneName">場景名稱</label>
+                            <input type="text" id="sceneName" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="sceneLocations">地點名稱（用逗號分隔）</label>
+                            <input type="text" id="sceneLocations" placeholder="例如：電視櫃, 沙發旁, 茶几" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">確認新增</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- 添加標籤Modal -->
+            <div id="addTagModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>添加標籤</h3>
+                        <button class="close-btn" id="closeTagModalBtn">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <form id="addTagForm" class="form">
+                        <div class="form-group">
+                            <label for="tagName">標籤名稱</label>
+                            <input type="text" id="tagName" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="tagColor">標籤顏色</label>
+                            <input type="color" id="tagColor" value="#3B82F6">
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">確認新增</button>
                     </form>
                 </div>
             </div>
