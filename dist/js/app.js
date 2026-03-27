@@ -22,6 +22,7 @@ class InventoryManager {
 
         this.currentSceneId = null;
         this.currentTagId = null;
+        this.currentItemId = null;
 
         this.init();
     }
@@ -55,9 +56,11 @@ class InventoryManager {
         // ===== 返回 =====
         bind('scenesBackBtn', 'click', () => this.navigateToPage('home'));
         bind('tagsBackBtn', 'click', () => this.navigateToPage('home'));
+        bind('scenesBackBtn', 'click', () => this.navigateToPage('home'));
 
-        bind('sceneDetailBackBtn', 'click', () => this.navigateToPage('scenes'));
+        bind('scenesDetailBackBtn', 'click', () => this.navigateToPage('scenes'));
         bind('tagDetailBackBtn', 'click', () => this.navigateToPage('tags'));
+        bind('itemDetailBackBtn', 'click', () => this.navigateToPage('items'));
 
         // ===== 新增 =====
         bind('addItemNavBtn', 'click', () => this.openAddItemModal());
@@ -119,12 +122,16 @@ class InventoryManager {
                 document.getElementById('scenesPage').classList.add('active');
                 break;
             case 'sceneDetail':
-                document.getElementById('sceneDetailPage').classList.add('active');
+                document.getElementById('scenesDetailPage').classList.add('active');
                 this.renderSceneDetail();
                 break;
             case 'items':
                 document.getElementById('itemsPage').classList.add('active');
-                this.renderItems();
+                // this.renderItems();
+                break;
+            case 'itemDetail':
+                document.getElementById('itemDetailPage').classList.add('active');
+                this.renderItemDetail();
                 break;
             case 'tags':
                 document.getElementById('tagsPage').classList.add('active');
@@ -183,6 +190,12 @@ class InventoryManager {
                 </div>
             `;
         }).join('');
+        container.querySelectorAll('.item-card').forEach(card => {
+            card.addEventListener('click', () => {
+                this.currentItemId = parseInt(card.dataset.itemId);
+                this.navigateToPage('itemDetail');
+            });
+        });
     }
 
     /*場景卡片*/
@@ -280,31 +293,37 @@ class InventoryManager {
     }
 
     /*場景詳情頁*/
-    renderTagDetail() {
-        const tag = this.tags.find(t => t.id === this.currentTagId);
-        if (!tag) return;
+    renderSceneDetail() {
+        const scene = this.scenes.find(s => s.id === this.currentSceneId);
+        if (!scene) return;
 
-        document.getElementById('tagDetailTitle').textContent = tag.name;
+        document.getElementById('scenesDetailTitle').textContent = scene.name;
 
-        const tagItems = this.items.filter(item => item.tags.includes(tag.id));
-        const container = document.getElementById('tagDetailItems');
+        const locationsContainer = document.getElementById('scenesDetailLocations');
+        locationsContainer.innerHTML = `
+        <h3>地點</h3>
+        <div class="scene-locations">
+            ${scene.locations.map(location => `<span class="location-badge">${location}</span>`).join('')}
+        </div>
+    `;
 
-        if (!tagItems.length) {
-            container.innerHTML = '<p class="text-muted">此標籤尚無物品</p>';
+        const sceneItems = this.items.filter(item => item.sceneId === scene.id);
+        const itemsContainer = document.getElementById('scenesDetailItems');
+
+        if (!sceneItems.length) {
+            itemsContainer.innerHTML = '<p class="text-muted">此場景尚無物品</p>';
             return;
         }
 
-        container.innerHTML = `
+        itemsContainer.innerHTML = `
         <h3>物品列表</h3>
-        ${tagItems.map(item => {
-            const scene = this.scenes.find(s => s.id === item.sceneId);
-            const location = scene?.locations[item.locationIndex] || '未知地點';
-
+        ${sceneItems.map(item => {
+            const location = scene.locations[item.locationIndex] || '未知地點';
             return `
                 <div class="item-card">
                     <div class="item-name">${item.name}</div>
                     <div class="item-quantity">數量: ${item.quantity}</div>
-                    <div class="item-location">${scene?.name || '未知場景'} - ${location}</div>
+                    <div class="item-location">${location}</div>
                 </div>
             `;
         }).join('')}
@@ -341,6 +360,38 @@ class InventoryManager {
         });
     }
 
+    /*標籤詳情頁*/
+    renderTagDetail() {
+        const tag = this.tags.find(t => t.id === this.currentTagId);
+        if (!tag) return;
+
+        document.getElementById('tagDetailTitle').textContent = tag.name;
+
+        const tagItems = this.items.filter(item => item.tags.includes(tag.id));
+        const container = document.getElementById('tagDetailItems');
+
+        if (!tagItems.length) {
+            container.innerHTML = '<p class="text-muted">此標籤尚無物品</p>';
+            return;
+        }
+
+        container.innerHTML = `
+        <h3>物品列表</h3>
+        ${tagItems.map(item => {
+            const scene = this.scenes.find(s => s.id === item.sceneId);
+            const location = scene?.locations[item.locationIndex] || '未知地點';
+
+            return `
+                <div class="item-card">
+                    <div class="item-name">${item.name}</div>
+                    <div class="item-quantity">數量: ${item.quantity}</div>
+                    <div class="item-location">${scene?.name || '未知場景'} - ${location}</div>
+                </div>
+            `;
+        }).join('')}
+    `;
+    }
+
     /*物品列表*/
     renderItems(items = this.items) {
         const container = document.getElementById('itemsList');
@@ -352,11 +403,14 @@ class InventoryManager {
 
         container.innerHTML = items.map(item => {
             const scene = this.scenes.find(s => s.id === item.sceneId);
-            const location = scene?.locations[item.locationIndex] || '未知地點';
+            const location = (scene && scene.locations)
+                ? scene.locations[item.locationIndex] || '未知地點'
+                : '未知地點';
+
             const expiryClass = this.getExpiryClass(item.expiryDate);
 
             return `
-                <div class="item-card">
+                <div class="item-card" data-item-id="${item.id}">
                     <div class="item-header">
                         <div>
                             <div class="item-name">${item.name}</div>
@@ -369,50 +423,68 @@ class InventoryManager {
                             return tag ? `<span class="item-tag" style="background-color: ${tag.color}20; color: ${tag.color}">${tag.name}</span>` : '';
                         }).join('')}
                     </div>
-                    <div class="item-location">${scene?.name || '未知場景'} - ${location}</div>
+                    <div class="item-location">${scene ? scene.name : '未知場景'} - ${location}</div>
                     ${item.expiryDate ? `<div class="item-expiry ${expiryClass}">保存期限: ${new Date(item.expiryDate).toLocaleDateString()}</div>` : ''}
                 </div>
             `;
         }).join('');
+
+        container.querySelectorAll('.item-card').forEach(card => {
+            card.addEventListener('click', () => {
+                this.currentItemId = parseInt(card.dataset.itemId);
+                this.navigateToPage('itemDetail');
+            });
+        });
     }
 
     /*物品詳情頁*/
-    renderSceneDetail() {
-        const scene = this.scenes.find(s => s.id === this.currentSceneId);
-        if (!scene) return;
+    renderItemDetail() {
+        const item = this.items.find(i => i.id === this.currentItemId);
+        if (!item) return;
 
-        document.getElementById('sceneDetailTitle').textContent = scene.name;
+        const scene = this.scenes.find(s => s.id === item.sceneId);
+        const location = (scene && scene.locations)
+            ? scene.locations[item.locationIndex] || '未知地點'
+            : '未知地點';
 
-        const locationsContainer = document.getElementById('sceneDetailLocations');
-        locationsContainer.innerHTML = `
-        <h3>地點</h3>
-        <div class="scene-locations">
-            ${scene.locations.map(location => `<span class="location-badge">${location}</span>`).join('')}
-        </div>
-    `;
+        document.getElementById('itemDetailTitle').textContent = item.name;
 
-        const sceneItems = this.items.filter(item => item.sceneId === scene.id);
-        const itemsContainer = document.getElementById('sceneDetailItems');
+        const tagsHtml = item.tags.map(tagId => {
+            const tag = this.tags.find(t => t.id === tagId);
+            return tag
+                ? `<span class="item-tag" style="background-color: ${tag.color}20; color: ${tag.color}">${tag.name}</span>`
+                : '';
+        }).join('');
 
-        if (!sceneItems.length) {
-            itemsContainer.innerHTML = '<p class="text-muted">此場景尚無物品</p>';
-            return;
-        }
-
-        itemsContainer.innerHTML = `
-        <h3>物品列表</h3>
-        ${sceneItems.map(item => {
-            const location = scene.locations[item.locationIndex] || '未知地點';
-            return `
-                <div class="item-card">
-                    <div class="item-name">${item.name}</div>
-                    <div class="item-quantity">數量: ${item.quantity}</div>
-                    <div class="item-location">${location}</div>
+        document.getElementById('itemDetailContent').innerHTML = `
+            <div class="item-card">
+                <div class="item-header">
+                    <div>
+                        <div class="item-name">${item.name}</div>
+                        <div class="item-quantity">數量: <span>${item.quantity}</span></div>
+                    </div>
                 </div>
-            `;
-        }).join('')}
-    `;
+
+                <div class="item-details">
+                    ${tagsHtml || '<span class="text-muted">無標籤</span>'}
+                </div>
+
+                <div class="item-location">
+                    ${scene ? scene.name : '未知場景'} - ${location}
+                </div>
+
+                <div class="item-expiry">
+                    保存期限: ${item.expiryDate ? new Date(item.expiryDate).toLocaleDateString() : '未設定'}
+                </div>
+
+                <div class="item-meta">
+                    <div>建立時間：${new Date(item.createdAt).toLocaleString()}</div>
+                    <div>更新時間：${new Date(item.updatedAt).toLocaleString()}</div>
+                </div>
+            </div>
+        `;
     }
+
 
     populateFormSelects() {
         const sceneSelect = document.getElementById('itemScene');

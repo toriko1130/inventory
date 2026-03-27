@@ -95,19 +95,39 @@
                 </div>
             </div>
             <!--場景詳情頁-->
-            <div id="sceneDetailPage" class="page">
+            <div id="scenesDetailPage" class="page">
                 <div class="page-header">
-                    <button type="button" id="sceneDetailBackBtn" class="back-btn">返回</button>
-                    <h2 id="sceneDetailTitle">場景詳細</h2>
+                    <button class="back-btn" id="scenesDetailBackBtn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </button>
+                    <h2>場景詳細頁</h2>
+                    <button class="add-btn" id="addSceneBtn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                    </button>
                 </div>
-                <div id="sceneDetailLocations" class="detail-section"></div>
-                <div id="sceneDetailItems" class="detail-section"></div>
+                <div id="scenesDetailLocations" class="detail-section"></div>
+                <div id="scenesDetailItems" class="detail-section"></div>
             </div>
             <!-- 物品列表item Page -->
             <div id="itemsPage" class="page">
                 <div class="page-header">
+                    <button class="back-btn" id="itemsBackBtn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </button>
                     <h2>物品</h2>
-                    <button type="button" class="primary-btn" id="addItemPageBtn">新增物品</button>
+                    <button class="add-btn" id="addItemPageBtn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                    </button>
                 </div>
                 <div class="search-section">
                     <div class="search-box">
@@ -118,7 +138,11 @@
                 <div id="itemsList" class="items-list"></div>
             </div>
             <!--物品詳情頁-->
-            <div id="itemsPage" class="page">
+            <div id="itemDetailPage" class="page">
+                <div class="page-header">
+                    <button type="button" id="itemDetailBackBtn" class="back-btn">返回</button>
+                    <h2 id="itemDetailTitle">物品詳情</h2>
+                </div>
                 <div class="page-header">
                     <h2>物品</h2>
                     <button type="button" class="primary-btn" id="addItemPageBtn">新增物品</button>
@@ -129,7 +153,7 @@
                         <button type="button" id="itemsSearchBtn">搜尋</button>
                     </div>
                 </div>
-                <div id="itemsList" class="items-list"></div>
+                <div id="itemDetailContent" class="detail-section"></div>
             </div>
             <!-- 標籤列表Tags Page -->
             <div id="tagsPage" class="page">
@@ -154,8 +178,18 @@
             <!--標籤詳情頁-->
             <div id="tagDetailPage" class="page">
                 <div class="page-header">
-                    <button type="button" id="tagDetailBackBtn" class="back-btn">返回</button>
-                    <h2 id="tagDetailTitle">標籤詳細</h2>
+                    <button class="back-btn" id="tagDetailBackBtn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </button>
+                    <h2>標籤詳細頁</h2>
+                    <button class="add-btn" id="addTagBtn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                    </button>
                 </div>
                 <div id="tagDetailItems" class="detail-section"></div>
             </div>
