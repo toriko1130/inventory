@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -9,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
     <div id="app">
         <!-- 首頁大圖+搜尋區塊 -->
@@ -32,7 +34,6 @@
                 </div>
             </div>
         </header>
-
         <!-- Main Content -->
         <main class="main-content" id="mainContent">
             <!-- 首頁 Page -->
@@ -49,9 +50,9 @@
                                 <!-- Scenes cards will be populated here -->
                             </div>
                         </div>
-                    </div> 
-                   <!-- Tags Section -->
-                   <div class="section-item">
+                    </div>
+                    <!-- Tags Section -->
+                    <div class="section-item">
                         <div class="section-header">
                             <h2 class="section-title">標籤</h2>
                             <button class="view-all-btn" data-page="tags">查看全部</button>
@@ -62,19 +63,18 @@
                             </div>
                         </div>
                     </div>
-                   <!-- New Section -->
+                    <!-- New Section -->
                     <div class="section-item">
                         <div class="section-header">
                             <h2 class="section-title">最近更新</h2>
                         </div>
                         <div id="recentItemsList" class="items-list">
-                                <!-- Recent items will be populated here -->
+                            <!-- Recent items will be populated here -->
                         </div>
                     </div>
-                </div> 
+                </div>
             </div>
-
-            <!-- 場景頁面Scenes Page -->
+            <!-- 場景列表Scenes Page -->
             <div id="scenesPage" class="page">
                 <div class="page-header">
                     <button class="back-btn" id="scenesBackBtn">
@@ -94,8 +94,44 @@
                     <!-- Scenes will be populated here -->
                 </div>
             </div>
-
-            <!-- 標籤頁面Tags Page -->
+            <!--場景詳情頁-->
+            <div id="sceneDetailPage" class="page">
+                <div class="page-header">
+                    <button type="button" id="sceneDetailBackBtn" class="back-btn">返回</button>
+                    <h2 id="sceneDetailTitle">場景詳細</h2>
+                </div>
+                <div id="sceneDetailLocations" class="detail-section"></div>
+                <div id="sceneDetailItems" class="detail-section"></div>
+            </div>
+            <!-- 物品列表item Page -->
+            <div id="itemsPage" class="page">
+                <div class="page-header">
+                    <h2>物品</h2>
+                    <button type="button" class="primary-btn" id="addItemPageBtn">新增物品</button>
+                </div>
+                <div class="search-section">
+                    <div class="search-box">
+                        <input type="text" id="itemsSearchInput" placeholder="搜尋物品、場景、標籤">
+                        <button type="button" id="itemsSearchBtn">搜尋</button>
+                    </div>
+                </div>
+                <div id="itemsList" class="items-list"></div>
+            </div>
+            <!--物品詳情頁-->
+            <div id="itemsPage" class="page">
+                <div class="page-header">
+                    <h2>物品</h2>
+                    <button type="button" class="primary-btn" id="addItemPageBtn">新增物品</button>
+                </div>
+                <div class="search-section">
+                    <div class="search-box">
+                        <input type="text" id="itemsSearchInput" placeholder="搜尋物品、場景、標籤">
+                        <button type="button" id="itemsSearchBtn">搜尋</button>
+                    </div>
+                </div>
+                <div id="itemsList" class="items-list"></div>
+            </div>
+            <!-- 標籤列表Tags Page -->
             <div id="tagsPage" class="page">
                 <div class="page-header">
                     <button class="back-btn" id="tagsBackBtn">
@@ -115,72 +151,64 @@
                     <!-- Tags will be populated here -->
                 </div>
             </div>
-
-            <!-- 我的頁面Profile Page -->
-            <div id="profilePage" class="page">
-                <div class="profile-header">
-                    <div class="profile-avatar">
-                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="12" cy="7" r="4"></circle>
-                        </svg>
-                    </div>
-                    <div class="profile-info">
-                        <h2 class="profile-name">使用者</h2>
-                        <p class="profile-email">user@example.com</p>
-                    </div>
+            <!--標籤詳情頁-->
+            <div id="tagDetailPage" class="page">
+                <div class="page-header">
+                    <button type="button" id="tagDetailBackBtn" class="back-btn">返回</button>
+                    <h2 id="tagDetailTitle">標籤詳細</h2>
                 </div>
-                
-                <div class="profile-section">
-                    <h3 class="section-subtitle">設置相關</h3>
-                    <div class="profile-menu">
-                        <button class="menu-item">
-                            <span class="menu-icon">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="12" cy="12" r="3"></circle>
-                                    <path d="M12 1v6m0 6v6m4.22-10.22l4.24-4.24M6.34 6.34l4.24-4.24m11.56 5.66l-4.24-4.24M6.34 17.66l4.24 4.24m11.56-5.66l-4.24 4.24"></path>
-                                </svg>
-                            </span>
-                            <span class="menu-text">通知設置</span>
-                            <span class="menu-arrow">›</span>
-                        </button>
-                        <button class="menu-item">
-                            <span class="menu-icon">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-                                </svg>
-                            </span>
-                            <span class="menu-text">數據備份</span>
-                            <span class="menu-arrow">›</span>
-                        </button>
-                        <button class="menu-item">
-                            <span class="menu-icon">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
-                                    <line x1="12" y1="9" x2="12" y2="13"></line>
-                                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
-                                </svg>
-                            </span>
-                            <span class="menu-text">關於應用</span>
-                            <span class="menu-arrow">›</span>
-                        </button>
-                        <button class="menu-item">
-                            <span class="menu-icon">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M9 11H5a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h4"></path>
-                                    <path d="M15 13h4a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-4"></path>
-                                    <path d="M12 3v18"></path>
-                                    <path d="M7 8h10"></path>
-                                    <path d="M7 16h10"></path>
-                                </svg>
-                            </span>
-                            <span class="menu-text">語言設置</span>
-                            <span class="menu-arrow">›</span>
+                <div id="tagDetailItems" class="detail-section"></div>
+            </div>
+            <!-- 添加場景Modal -->
+            <div id="addSceneModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>添加場景</h3>
+                        <button class="close-btn" id="closeSceneModalBtn">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
                         </button>
                     </div>
+                    <form id="addSceneForm" class="form">
+                        <div class="form-group">
+                            <label for="sceneName">場景名稱</label>
+                            <input type="text" id="sceneName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="sceneLocations">地點名稱（用逗號分隔）</label>
+                            <input type="text" id="sceneLocations" placeholder="例如：電視櫃, 沙發旁, 茶几" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">確認新增</button>
+                    </form>
                 </div>
             </div>
-
+            <!-- 添加標籤Modal -->
+            <div id="addTagModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>添加標籤</h3>
+                        <button class="close-btn" id="closeTagModalBtn">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </button>
+                    </div>
+                    <form id="addTagForm" class="form">
+                        <div class="form-group">
+                            <label for="tagName">標籤名稱</label>
+                            <input type="text" id="tagName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="tagColor">標籤顏色</label>
+                            <input type="color" id="tagColor" value="#3B82F6">
+                        </div>
+                        <button type="submit" class="btn btn-primary">確認新增</button>
+                    </form>
+                </div>
+            </div>
             <!-- 添加物品Add Item Modal -->
             <div id="addItemModal" class="modal">
                 <div class="modal-content">
@@ -232,67 +260,70 @@
                     </form>
                 </div>
             </div>
-
-
-            <!-- 添加場景Modal -->
-            <div id="addSceneModal" class="modal">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h3>添加場景</h3>
-                        <button class="close-btn" id="closeSceneModalBtn">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <line x1="18" y1="6" x2="6" y2="18"></line>
-                                <line x1="6" y1="6" x2="18" y2="18"></line>
-                            </svg>
-                        </button>
+            <!-- 我的頁面Profile Page -->
+            <div id="profilePage" class="page">
+                <div class="profile-header">
+                    <div class="profile-avatar">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
                     </div>
-
-                    <form id="addSceneForm" class="form">
-                        <div class="form-group">
-                            <label for="sceneName">場景名稱</label>
-                            <input type="text" id="sceneName" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="sceneLocations">地點名稱（用逗號分隔）</label>
-                            <input type="text" id="sceneLocations" placeholder="例如：電視櫃, 沙發旁, 茶几" required>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary">確認新增</button>
-                    </form>
+                    <div class="profile-info">
+                        <h2 class="profile-name">使用者</h2>
+                        <p class="profile-email">user@example.com</p>
+                    </div>
                 </div>
-            </div>
-
-            <!-- 添加標籤Modal -->
-            <div id="addTagModal" class="modal">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h3>添加標籤</h3>
-                        <button class="close-btn" id="closeTagModalBtn">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <line x1="18" y1="6" x2="6" y2="18"></line>
-                                <line x1="6" y1="6" x2="18" y2="18"></line>
-                            </svg>
+                <div class="profile-section">
+                    <h3 class="section-subtitle">設置相關</h3>
+                    <div class="profile-menu">
+                        <button class="menu-item">
+                            <span class="menu-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                    <path d="M12 1v6m0 6v6m4.22-10.22l4.24-4.24M6.34 6.34l4.24-4.24m11.56 5.66l-4.24-4.24M6.34 17.66l4.24 4.24m11.56-5.66l-4.24 4.24"></path>
+                                </svg>
+                            </span>
+                            <span class="menu-text">通知設置</span>
+                            <span class="menu-arrow">›</span>
+                        </button>
+                        <button class="menu-item">
+                            <span class="menu-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                                </svg>
+                            </span>
+                            <span class="menu-text">數據備份</span>
+                            <span class="menu-arrow">›</span>
+                        </button>
+                        <button class="menu-item">
+                            <span class="menu-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                                    <line x1="12" y1="9" x2="12" y2="13"></line>
+                                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                </svg>
+                            </span>
+                            <span class="menu-text">關於應用</span>
+                            <span class="menu-arrow">›</span>
+                        </button>
+                        <button class="menu-item">
+                            <span class="menu-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 11H5a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h4"></path>
+                                    <path d="M15 13h4a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-4"></path>
+                                    <path d="M12 3v18"></path>
+                                    <path d="M7 8h10"></path>
+                                    <path d="M7 16h10"></path>
+                                </svg>
+                            </span>
+                            <span class="menu-text">語言設置</span>
+                            <span class="menu-arrow">›</span>
                         </button>
                     </div>
-
-                    <form id="addTagForm" class="form">
-                        <div class="form-group">
-                            <label for="tagName">標籤名稱</label>
-                            <input type="text" id="tagName" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="tagColor">標籤顏色</label>
-                            <input type="color" id="tagColor" value="#3B82F6">
-                        </div>
-
-                        <button type="submit" class="btn btn-primary">確認新增</button>
-                    </form>
                 </div>
             </div>
         </main>
-
         <!-- 底部導覽欄Bottom Navigation -->
         <nav class="bottom-nav">
             <button class="nav-item active" data-page="home">
@@ -310,11 +341,12 @@
                 </svg>
                 <span>場景</span>
             </button>
-            <button class="nav-item add-item-btn" id="addItemNavBtn">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="12" y1="5" x2="12" y2="19"></line>
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
+            <button class="nav-item" data-page="items">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 7L12 3L4 7L12 11L20 7Z"></path>
+                    <path d="M4 7V17L12 21L20 17V7"></path>
                 </svg>
+                <span>物品</span>
             </button>
             <button class="nav-item" data-page="tags">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -331,8 +363,14 @@
                 <span>我的</span>
             </button>
         </nav>
+        <!--             <button class="nav-item add-item-btn" id="addItemNavBtn">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+            </button> -->
     </div>
-
     <script src="dist/js/app.js"></script>
 </body>
+
 </html>
